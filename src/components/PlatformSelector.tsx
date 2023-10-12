@@ -6,8 +6,9 @@ import useGameQueryStore from '../store';
 
 const PlatformSelector = () => {
     const { data, error } = usePlatforms();
-    const { gameQuery, setPlatformId } = useGameQueryStore();
-    const selectedPlatform = usePlatform(gameQuery.platformId);
+    const setSelectedPlatformId = useGameQueryStore(s => s.setPlatformId);
+    const selectedPlatformId = useGameQueryStore(s => s.gameQuery.platformId);
+    const selectedPlatform = usePlatform(selectedPlatformId);
 
     if (error) return null;
 
@@ -18,7 +19,7 @@ const PlatformSelector = () => {
             </MenuButton>
             <MenuList>
                 {data?.results.map(platform => (
-                    <MenuItem key={platform.id} onClick={() => setPlatformId(platform.id)}>
+                    <MenuItem key={platform.id} onClick={() => setSelectedPlatformId(platform.id)}>
                         {platform.name}
                     </MenuItem>
                 ))}
